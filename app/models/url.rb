@@ -19,19 +19,29 @@ class Url < ActiveRecord::Base
       value
     end.reverse
 
-    sorted = []
-    array.map do |url, number|
-      sorted << url.join
+
+    sorted = array.map do |url, number|
+      url.join
     end
-    sorted
   end
 
-  def assemble_url
-    self.root_url + self.path
+  def self.assemble_url(id)
+    url = find(id)
+    url.root_url + url.path
   end
 
-  def response_times
-    self.payload_requests.pluck(:responded_in).sort.reverse
+  def self.response_times(id)
+    url = find(id)
+    url.payload_requests.pluck(:responded_in).sort.reverse
+  end
+
+  def self.verbs_used(id)
+    requests = PayloadRequest.select(:request_type_id).where("url_id" == id)
+    verb_ids = requests.pluck(:request_type_id).uniq
+
+    verbs = verb_ids.map do |id|
+      RequestType.find(id).name
+    end
   end
 
 end

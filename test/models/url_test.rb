@@ -5,10 +5,10 @@ class UrlTest < Minitest::Test
 
   def data_1
     '{
-      "url": "http://jumpstartlab.com/blog",
+      "url": "http://google.com/translate",
       "requestedAt": "2013-02-16 21:38:28 -0700",
       "respondedIn": 37,
-      "referredBy": "http://jumpstartlab.com",
+      "referredBy": "http://google.com",
       "requestType": "GET",
       "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
       "resolutionWidth": "1920",
@@ -23,7 +23,7 @@ class UrlTest < Minitest::Test
     "requestedAt": "2013-02-16 21:38:28 -0700",
     "respondedIn": 50,
     "referredBy": "http://jumpstartlab.com",
-    "requestType": "GET",
+    "requestType": "POST",
     "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
     "resolutionWidth": "1920",
     "resolutionHeight": "1280",
@@ -90,11 +90,11 @@ class UrlTest < Minitest::Test
 
     assert_equal 3, PayloadRequest.all.count
 
-    assert_equal 1, Url.all.count
+    assert_equal 2, Url.all.count
 
-    assert_equal "http://jumpstartlab.com/blog", Url.find(1).assemble_url
+    assert_equal "http://jumpstartlab.com/blog", Url.assemble_url(2)
 
-    assert_equal 66, Url.find(1).payload_requests.maximum(:responded_in)
+    assert_equal 66, Url.find(2).payload_requests.maximum(:responded_in)
   end
 
   def test_finds_the_min_response_time
@@ -110,7 +110,8 @@ class UrlTest < Minitest::Test
     process_payload(data_2)
     process_payload(data_3)
 
-    assert_equal [66, 50, 37], Url.find(1).response_times
+    assert_equal [66, 50], Url.response_times(2)
+    assert_equal [37], Url.response_times(1)
   end
 
   def test_it_finds_average_response_time
@@ -118,6 +119,15 @@ class UrlTest < Minitest::Test
     process_payload(data_2)
     process_payload(data_3)
 
-    assert_equal 51, Url.find(1).payload_requests.average(:responded_in)
+    assert_equal 58, Url.find(2).payload_requests.average(:responded_in)
+  end
+
+  def test_it_finds_verbs_associated_with_url
+    process_payload(data_1)
+    process_payload(data_2)
+    process_payload(data_3)
+
+
+   assert_equal ["GET", "POST"], Url.verbs_used(2)
   end
 end
