@@ -55,34 +55,34 @@ module DataProcessor
 
   def assign_data_to_url(data)
     url_data = assign_url_data(data)
-    url = Url.create(root_url: url_data[:root], path: url_data[:path])
+    url = Url.find_or_create_by(root_url: url_data[:root], path: url_data[:path])
     url.id
   end
 
   def assign_data_to_referred_by(data)
     url_data = assign_url_data(data)
-    refer = ReferredBy.create(root_url: url_data[:root], path: url_data[:path])
+    refer = ReferredBy.find_or_create_by(root_url: url_data[:root], path: url_data[:path])
     refer.id
   end
 
   def assign_data_to_request_type(data)
-    type = RequestType.create(name: data[:request_type])
+    type = RequestType.find_or_create_by(name: data[:request_type])
     type.id
   end
 
   def assign_data_to_user_agent(data)
     agent = UserAgent.parse(data[:user_agent])
-    u_agent = UAgent.create(browser: agent.browser, operating_system: agent.platform)
+    u_agent = UAgent.find_or_create_by(browser: agent.browser, operating_system: agent.platform)
     u_agent.id
   end
 
   def assign_data_to_resolution(data)
-    res = Resolution.create(width: data[:resolution_width], height: data[:resolution_height])
+    res = Resolution.find_or_create_by(width: data[:resolution_width], height: data[:resolution_height])
     res.id
   end
 
   def assign_data_to_ip(data)
-    ip = Ip.create(address: data[:ip])
+    ip = Ip.find_or_create_by(address: data[:ip])
     ip.id
   end
 

@@ -74,4 +74,17 @@ class DataProcessorTest < Minitest::Test
     assert_equal 1, loaded.u_agent_id
     assert_equal 1, loaded.referred_by_id
   end
+
+  def test_it_does_not_store_duplicate_entires_within_foreign_key_tables
+    process_payload(raw_data)
+    process_payload(raw_data)
+
+    assert_equal 2, PayloadRequest.count
+    assert_equal 1, Url.all.count
+    assert_equal 1, RequestType.all.count
+    assert_equal 1, Resolution.all.count
+    assert_equal 1, Ip.all.count
+    assert_equal 1, UAgent.all.count
+    assert_equal 1, ReferredBy.all.count
+  end
 end
