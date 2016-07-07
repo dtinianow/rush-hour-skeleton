@@ -15,7 +15,13 @@ class Url < ActiveRecord::Base
   def self.most_to_least
     grouped = Url.group([:root_url] + [:path]).count
 
-    grouped.keys.map {|root, path| root + path}
-
+    array = grouped.sort_by do |key, value|
+      value
+    end.reverse
+    sorted = []
+    array.map do |url, number|
+      sorted << url.join
+    end
+    sorted
   end
 end
