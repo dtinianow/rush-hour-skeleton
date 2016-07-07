@@ -12,14 +12,19 @@ class UAgentTest < Minitest::Test
 
   def test_browser_breakdown_across_all_requests
     date_time = DateTime.new
-    user_agent1 = UAgent.create(browser: "Chrome", operating_system: "Macintosh")
+
+    UAgent.create(browser: "Chrome", operating_system: "Macintosh")
     PayloadRequest.create(requested_at: date_time, responded_in: 30, url_id: 1, referred_by_id: 2, request_type_id: 3, u_agent_id: 1, resolution_id: 5, ip_id: 6)
-    user_agent2 = UAgent.create(browser: "Dolphin", operating_system: "Windows")
+
+    UAgent.create(browser: "Dolphin", operating_system: "Windows")
     PayloadRequest.create(requested_at: date_time, responded_in: 30, url_id: 1, referred_by_id: 2, request_type_id: 3, u_agent_id: 2, resolution_id: 5, ip_id: 6)
-    user_agent3 = UAgent.create(browser: "Firefox", operating_system: "Linux")
+
+    UAgent.create(browser: "Firefox", operating_system: "Linux")
     PayloadRequest.create(requested_at: date_time, responded_in: 30, url_id: 1, referred_by_id: 2, request_type_id: 3, u_agent_id: 3, resolution_id: 5, ip_id: 6)
-    user_agent4 = UAgent.create(browser: "Chrome", operating_system: "Windows")
+
+    UAgent.create(browser: "Chrome", operating_system: "Windows")
     PayloadRequest.create(requested_at: date_time, responded_in: 30, url_id: 1, referred_by_id: 2, request_type_id: 3, u_agent_id: 4, resolution_id: 5, ip_id: 6)
+    #let's add another payload request coming in!
     PayloadRequest.create(requested_at: date_time, responded_in: 30, url_id: 1, referred_by_id: 2, request_type_id: 3, u_agent_id: 4, resolution_id: 5, ip_id: 6)
 
     assert_equal ({"Dolphin"=>1, "Chrome"=>3, "Firefox"=>1}), UAgent.browser_breakdown
@@ -27,14 +32,20 @@ class UAgentTest < Minitest::Test
 
   def test_os_breakdown_across_all_requests
     date_time = DateTime.new
-    user_agent1 = UAgent.create(browser: "Chrome", operating_system: "Macintosh")
+
+    UAgent.create(browser: "Chrome", operating_system: "Macintosh")
     PayloadRequest.create(requested_at: date_time, responded_in: 30, url_id: 1, referred_by_id: 2, request_type_id: 3, u_agent_id: 1, resolution_id: 5, ip_id: 6)
-    user_agent2 = UAgent.create(browser: "Dolphin", operating_system: "Macintosh")
+
+    UAgent.create(browser: "Dolphin", operating_system: "Macintosh")
     PayloadRequest.create(requested_at: date_time, responded_in: 30, url_id: 1, referred_by_id: 2, request_type_id: 3, u_agent_id: 2, resolution_id: 5, ip_id: 6)
-    user_agent3 = UAgent.create(browser: "Firefox", operating_system: "Linux")
+
+    UAgent.create(browser: "Firefox", operating_system: "Linux")
     PayloadRequest.create(requested_at: date_time, responded_in: 30, url_id: 1, referred_by_id: 2, request_type_id: 3, u_agent_id: 3, resolution_id: 5, ip_id: 6)
-    user_agent4 = UAgent.create(browser: "Chrome", operating_system: "Windows")
+
+    UAgent.create(browser: "Chrome", operating_system: "Windows")
     PayloadRequest.create(requested_at: date_time, responded_in: 30, url_id: 1, referred_by_id: 2, request_type_id: 3, u_agent_id: 4, resolution_id: 5, ip_id: 6)
+
+    #let's add another payload request coming in!
     PayloadRequest.create(requested_at: date_time, responded_in: 30, url_id: 1, referred_by_id: 2, request_type_id: 3, u_agent_id: 3, resolution_id: 5, ip_id: 6)
 
     assert_equal ({"Linux"=>2, "Windows"=>1, "Macintosh"=>2}), UAgent.os_breakdown
@@ -52,11 +63,11 @@ class UAgentTest < Minitest::Test
               "resolutionHeight": "1280",
               "ip": "63.29.38.211"
             }'
-    user_agent1 = UAgent.create(browser: "Chrome", operating_system: "Macintosh")
-    #user_agent2 will never be invoked, but it exists as a row in the UAgent table. Testing that it is using the correct table interactions.
-    user_agent2 = UAgent.create(browser: "Dolphin", operating_system: "Windows")
-    payload_request1 = process_payload(request)
-    payload_request2 = process_payload(request)
+    UAgent.create(browser: "Chrome", operating_system: "Macintosh")
+    #this next uagent object will never be invoked, but we make it exist as a row in the UAgent table. Testing that it is using the correct table interactions.
+    UAgent.create(browser: "Dolphin", operating_system: "Windows")
+    process_payload(request) #make one payload request
+    process_payload(request) #now make another payload request
     assert_equal ({"Macintosh"=>2}), UAgent.os_breakdown
     assert_equal ({"Chrome"=>2}), UAgent.browser_breakdown
   end
