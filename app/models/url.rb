@@ -18,10 +18,27 @@ class Url < ActiveRecord::Base
     array = grouped.sort_by do |key, value|
       value
     end.reverse
+
     sorted = []
     array.map do |url, number|
       sorted << url.join
     end
     sorted
+  end
+
+  def assemble_url
+    self.root_url + self.path
+  end
+
+  def find_max_response_time
+    url = assemble_url
+    response_times = []
+
+    PayloadRequest.all.each do |payload|
+      if Url.find(payload.url_id).assemble_url == url
+        response_times << payload.responded_in
+      end
+    end
+    response_times.max
   end
 end
