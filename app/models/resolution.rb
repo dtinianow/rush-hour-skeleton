@@ -5,10 +5,11 @@ class Resolution < ActiveRecord::Base
   validates :height, presence: true
 
   def self.resolutions
-    resolutions = Hash.new(0)
-    all.each do |object|
-      resolutions[object.width * object.height] += 1
-    end
-    resolutions
+    all.map do |object|
+      count = PayloadRequest.where(resolution_id: object.id).count
+      res = object.width * object.height
+      [res, count]
+    end.to_h
   end
+
 end
