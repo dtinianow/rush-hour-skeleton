@@ -30,15 +30,7 @@ class Url < ActiveRecord::Base
     self.root_url + self.path
   end
 
-  def find_max_response_time
-    url = assemble_url
-    response_times = []
-
-    PayloadRequest.all.each do |payload|
-      if Url.find(payload.url_id).assemble_url == url
-        response_times << payload.responded_in
-      end
-    end
-    response_times.max
+  def response_times
+    self.payload_requests.pluck(:responded_in).sort.reverse
   end
 end

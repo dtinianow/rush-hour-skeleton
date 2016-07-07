@@ -41,53 +41,140 @@ class UrlTest < Minitest::Test
   end
 
   def test_finds_the_max_response_time
-      data1 = '{
-        "url": "http://jumpstartlab.com/blog",
-        "requestedAt": "2013-02-16 21:38:28 -0700",
-        "respondedIn": 37,
-        "referredBy": "http://jumpstartlab.com",
-        "requestType": "GET",
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
-        "resolutionWidth": "1920",
-        "resolutionHeight": "1280",
-        "ip": "63.29.38.211"
-       }'
+    data1 = '{
+      "url": "http://jumpstartlab.com/blog",
+      "requestedAt": "2013-02-16 21:38:28 -0700",
+      "respondedIn": 37,
+      "referredBy": "http://jumpstartlab.com",
+      "requestType": "GET",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
+      "resolutionWidth": "1920",
+      "resolutionHeight": "1280",
+      "ip": "63.29.38.211"
+     }'
 
-      data2 = '{
-        "url": "http://jumpstartlab.com/blog",
-        "requestedAt": "2013-02-16 21:38:28 -0700",
-        "respondedIn": 50,
-        "referredBy": "http://jumpstartlab.com",
-        "requestType": "GET",
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
-        "resolutionWidth": "1920",
-        "resolutionHeight": "1280",
-        "ip": "63.29.38.211"
-       }'
+    data2 = '{
+      "url": "http://jumpstartlab.com/blog",
+      "requestedAt": "2013-02-16 21:38:28 -0700",
+      "respondedIn": 50,
+      "referredBy": "http://jumpstartlab.com",
+      "requestType": "GET",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
+      "resolutionWidth": "1920",
+      "resolutionHeight": "1280",
+      "ip": "63.29.38.211"
+     }'
 
-      data3 = '{
-        "url": "http://jumpstartlab.com/blog",
-        "requestedAt": "2013-02-16 21:38:28 -0700",
-        "respondedIn": 66,
-        "referredBy": "http://jumpstartlab.com",
-        "requestType": "GET",
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
-        "resolutionWidth": "1920",
-        "resolutionHeight": "1280",
-        "ip": "63.29.38.211"
-       }'
+    data3 = '{
+      "url": "http://jumpstartlab.com/blog",
+      "requestedAt": "2013-02-16 21:38:28 -0700",
+      "respondedIn": 66,
+      "referredBy": "http://jumpstartlab.com",
+      "requestType": "GET",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
+      "resolutionWidth": "1920",
+      "resolutionHeight": "1280",
+      "ip": "63.29.38.211"
+     }'
 
-      process_payload(data1)
-      process_payload(data2)
-      process_payload(data3)
+    process_payload(data1)
+    process_payload(data2)
+    process_payload(data3)
 
-      assert_equal 3, PayloadRequest.all.count
+    assert_equal 3, PayloadRequest.all.count
 
-      assert_equal 3, Url.all.count
+    assert_equal 1, Url.all.count
 
-      assert_equal "http://jumpstartlab.com/blog", Url.find(1).assemble_url
+    assert_equal "http://jumpstartlab.com/blog", Url.find(1).assemble_url
 
-      assert_equal 66, Url.find(1).find_max_response_time
+    assert_equal 66, Url.find(1).payload_requests.maximum(:responded_in)
+  end
 
+  def test_finds_the_min_response_time
+    data1 = '{
+      "url": "http://jumpstartlab.com/blog",
+      "requestedAt": "2013-02-16 21:38:28 -0700",
+      "respondedIn": 37,
+      "referredBy": "http://jumpstartlab.com",
+      "requestType": "GET",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
+      "resolutionWidth": "1920",
+      "resolutionHeight": "1280",
+      "ip": "63.29.38.211"
+     }'
+
+    data2 = '{
+      "url": "http://jumpstartlab.com/blog",
+      "requestedAt": "2013-02-16 21:38:28 -0700",
+      "respondedIn": 50,
+      "referredBy": "http://jumpstartlab.com",
+      "requestType": "GET",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
+      "resolutionWidth": "1920",
+      "resolutionHeight": "1280",
+      "ip": "63.29.38.211"
+     }'
+
+    data3 = '{
+      "url": "http://jumpstartlab.com/blog",
+      "requestedAt": "2013-02-16 21:38:28 -0700",
+      "respondedIn": 66,
+      "referredBy": "http://jumpstartlab.com",
+      "requestType": "GET",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
+      "resolutionWidth": "1920",
+      "resolutionHeight": "1280",
+      "ip": "63.29.38.211"
+     }'
+
+    process_payload(data1)
+    process_payload(data2)
+    process_payload(data3)
+
+    assert_equal 37, Url.find(1).payload_requests.minimum(:responded_in)
+  end
+
+  def test_it_gives_a_list_of_response_times_from_longest_to_shortest
+    data1 = '{
+      "url": "http://jumpstartlab.com/blog",
+      "requestedAt": "2013-02-16 21:38:28 -0700",
+      "respondedIn": 37,
+      "referredBy": "http://jumpstartlab.com",
+      "requestType": "GET",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
+      "resolutionWidth": "1920",
+      "resolutionHeight": "1280",
+      "ip": "63.29.38.211"
+     }'
+
+    data2 = '{
+      "url": "http://jumpstartlab.com/blog",
+      "requestedAt": "2013-02-16 21:38:28 -0700",
+      "respondedIn": 50,
+      "referredBy": "http://jumpstartlab.com",
+      "requestType": "GET",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
+      "resolutionWidth": "1920",
+      "resolutionHeight": "1280",
+      "ip": "63.29.38.211"
+     }'
+
+    data3 = '{
+      "url": "http://jumpstartlab.com/blog",
+      "requestedAt": "2013-02-16 21:38:28 -0700",
+      "respondedIn": 66,
+      "referredBy": "http://jumpstartlab.com",
+      "requestType": "GET",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
+      "resolutionWidth": "1920",
+      "resolutionHeight": "1280",
+      "ip": "63.29.38.211"
+     }'
+
+    process_payload(data1)
+    process_payload(data2)
+    process_payload(data3)
+
+    assert_equal [66, 50, 37], Url.find(1).response_times
   end
 end
