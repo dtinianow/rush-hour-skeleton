@@ -20,7 +20,7 @@ class Url < ActiveRecord::Base
     end.reverse
 
 
-    sorted = array.map do |url, number|
+    array.map do |url, number|
       url.join
     end
   end
@@ -39,9 +39,13 @@ class Url < ActiveRecord::Base
     requests = PayloadRequest.select(:request_type_id).where("url_id" == id)
     verb_ids = requests.pluck(:request_type_id).uniq
 
-    verbs = verb_ids.map do |id|
-      RequestType.find(id).name
+    verb_ids.map do |number|
+      RequestType.find(number).name
     end
+  end
+
+  def self.top_referrers
+    require "pry" ; binding.pry
   end
 
 end

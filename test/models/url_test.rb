@@ -3,49 +3,6 @@ require_relative '../test_helper.rb'
 class UrlTest < Minitest::Test
   include TestHelpers, DataProcessor
 
-  def data_1
-    '{
-      "url": "http://google.com/translate",
-      "requestedAt": "2013-02-16 21:38:28 -0700",
-      "respondedIn": 37,
-      "referredBy": "http://google.com",
-      "requestType": "GET",
-      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
-      "resolutionWidth": "1920",
-      "resolutionHeight": "1280",
-      "ip": "63.29.38.211"
-     }'
-  end
-
-  def data_2
-    '{
-    "url": "http://jumpstartlab.com/blog",
-    "requestedAt": "2013-02-16 21:38:28 -0700",
-    "respondedIn": 50,
-    "referredBy": "http://jumpstartlab.com",
-    "requestType": "POST",
-    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
-    "resolutionWidth": "1920",
-    "resolutionHeight": "1280",
-    "ip": "63.29.38.211"
-    }'
-  end
-
-  def data_3
-    '{
-    "url": "http://jumpstartlab.com/blog",
-    "requestedAt": "2013-02-16 21:38:28 -0700",
-    "respondedIn": 66,
-    "referredBy": "http://jumpstartlab.com",
-    "requestType": "GET",
-    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
-    "resolutionWidth": "1920",
-    "resolutionHeight": "1280",
-    "ip": "63.29.38.211"
-    }'
-
-  end
-
   def test_it_can_hold_a_root_url_and_path
     url = Url.create(root_url: "http://www.google.com", path: "/")
     assert_equal '/', url.path
@@ -129,5 +86,18 @@ class UrlTest < Minitest::Test
 
 
    assert_equal ["GET", "POST"], Url.verbs_used(2)
+  end
+
+  def test_it_finds_the_top_three_referrers
+    process_payload(data_1)
+    process_payload(data_2)
+    process_payload(data_3)
+    process_payload(data_4)
+    process_payload(data_5)
+    process_payload(data_6)
+    process_payload(data_7)
+    process_payload(data_8)
+
+    assert_equal ["http://jumpstartlab.com", "http://google.com", "http://facebook.com"], Url.top_referrers
   end
 end
