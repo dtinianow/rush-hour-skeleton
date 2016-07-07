@@ -3,7 +3,7 @@ class PayloadRequest < ActiveRecord::Base
   belongs_to :request_type
   belongs_to :resolution
   belongs_to :ip
-  belongs_to :user_agent
+  belongs_to :u_agent
   belongs_to :referred_by
 
   validates :url_id, presence: true
