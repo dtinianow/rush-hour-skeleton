@@ -33,4 +33,5 @@ class Url < ActiveRecord::Base
   def response_times
     self.payload_requests.pluck(:responded_in).sort.reverse
   end
+
 end
