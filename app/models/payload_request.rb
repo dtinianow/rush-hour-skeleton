@@ -1,11 +1,10 @@
 class PayloadRequest < ActiveRecord::Base
-  #presumably will put in this space belongs_to :url, etc., all the class names, once we make those.
-  # belongs_to :url
-  # belongs_to :request_type
-  # belongs_to :resolution
-  # belongs_to :ip
-  # belongs_to :u_agent
-  # belongs_to :referred_by
+  belongs_to :url
+  belongs_to :request_type
+  belongs_to :resolution
+  belongs_to :ip
+  belongs_to :u_agent
+  belongs_to :referred_by
 
   validates :url_id, presence: true
   validates :requested_at, presence: true
