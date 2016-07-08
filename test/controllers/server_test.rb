@@ -45,7 +45,7 @@ class RushHourAppTest < Minitest::Test
   end
 
   def test_responds_with_403_status_if_client_is_not_yet_created
-
+      
   end
 
   def test_responds_with_200_status_when_unique_payload_and_existing_client
