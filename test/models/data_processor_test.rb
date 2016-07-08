@@ -36,7 +36,7 @@ class DataProcessorTest < Minitest::Test
     formatted = assign_data(data)
     assign_data_to_referred_by(formatted)
     assert_equal "http://jumpstartlab.com", ReferredBy.first.root_url
-    assert_equal "/blog", ReferredBy.first.path
+    assert_equal "/", ReferredBy.first.path
   end
 
   def test_it_can_assign_user_agent_data
@@ -44,7 +44,7 @@ class DataProcessorTest < Minitest::Test
     formatted = assign_data(data)
     assign_data_to_user_agent(formatted)
     assert_equal "Chrome", UAgent.first.browser
-    assert_equal "Macintosh", UAgent.first.operating_system
+    assert_equal "OS X 10.8.2", UAgent.first.operating_system
   end
 
   def test_it_can_assign_resolution_data

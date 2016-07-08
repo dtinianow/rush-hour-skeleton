@@ -40,8 +40,8 @@ module DataProcessor
     end.to_h
   end
 
-  def assign_url_data(data)
-    url = data[:url]
+  def assign_url_data(data, type)
+    url = data[type]
     split = url.split('/')
     if split.last.include?('.')
       root = split.join('/')
@@ -54,13 +54,13 @@ module DataProcessor
   end
 
   def assign_data_to_url(data)
-    url_data = assign_url_data(data)
+    url_data = assign_url_data(data, :url)
     url = Url.find_or_create_by(root_url: url_data[:root], path: url_data[:path])
     url.id
   end
 
   def assign_data_to_referred_by(data)
-    url_data = assign_url_data(data)
+    url_data = assign_url_data(data, :referred_by)
     refer = ReferredBy.find_or_create_by(root_url: url_data[:root], path: url_data[:path])
     refer.id
   end
@@ -72,7 +72,7 @@ module DataProcessor
 
   def assign_data_to_user_agent(data)
     agent = UserAgent.parse(data[:user_agent])
-    u_agent = UAgent.find_or_create_by(browser: agent.browser, operating_system: agent.platform)
+    u_agent = UAgent.find_or_create_by(browser: agent.browser, operating_system: agent.os)
     u_agent.id
   end
 
