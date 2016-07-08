@@ -35,7 +35,7 @@ module RushHour
         payload = process_payload(params[:payload])
         PayloadRequest.find(payload.id).update_attribute(:client_id, client.id)
         status 200
-        body 'Ok'
+        body 'OK'
       end
     end
 
