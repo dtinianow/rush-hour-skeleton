@@ -2,7 +2,7 @@ require './test/test_helper'
 require 'pry'
 
 class RushHourAppTest < Minitest::Test
-  include Rack::Test::Methods, TestHelpers
+  include Rack::Test::Methods, TestHelpers, DataProcessor
 
   def app
     RushHour::Server
@@ -30,10 +30,15 @@ class RushHourAppTest < Minitest::Test
   end
 
   def test_responds_with_400_status_if_payload_is_missing
-    
+    Client.create( {identifier: 'jumpstart', root_url: 'http://jumpstartlab.com'} )
+    post '/sources/jumpstart/data'
+    assert_equal 400, last_response.status
+    assert_equal "Missing Parameters", last_response.body
   end
 
   def test_responds_with_403_status_if_payload_already_exists
+    Client.create( {identifier: 'jumpstart', root_url: 'http://jumpstartlab.com'} )
+    process_payload(raw_data)
 
   end
 
