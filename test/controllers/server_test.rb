@@ -5,7 +5,7 @@ class RushHourAppTest < Minitest::Test
   include Rack::Test::Methods, TestHelpers
 
   def app
-    RushHourApp
+    RushHour::Server
   end
 
   def test_create_a_new_client_with_valid_attributes
@@ -28,10 +28,5 @@ class RushHourAppTest < Minitest::Test
     assert_equal 403, last_response.status
     assert_equal "Identifier Already Exists", last_response.body
   end
-
-  def test_it_can_respond_to_a_curl_request
-    skip
-  end
-
 
 end

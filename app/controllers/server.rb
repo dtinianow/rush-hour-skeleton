@@ -1,16 +1,16 @@
+require './app/models/data_processor'
+
 module RushHour
   class Server < Sinatra::Base
+    include DataProcessor
+
     not_found do
       erb :error
     end
 
-    get '/sources' do
-      status 200
-      body "Ok"
-    end
-
     post '/sources' do
-      client = Client.new(params)
+      data = clean_client_data(params)
+      client = Client.new(data)
       #rootUrl vs root_url
       if Client.find_by(identifier: params[:identifier])
         #identifier already exists
@@ -32,7 +32,6 @@ module RushHour
     error 400 do
       "Missing Parameters"
     end
-
 
   end
 end
