@@ -6,7 +6,7 @@ module DataProcessor
     JSON.parse("#{request}")
   end
 
-  def process_payload(request)
+  def process_foreign_tables(request)
     data = parse_it(request)
     formatted = assign_data(data)
     url = assign_data_to_url(formatted)
@@ -15,16 +15,15 @@ module DataProcessor
     agent = assign_data_to_user_agent(formatted)
     res = assign_data_to_resolution(formatted)
     ip = assign_data_to_ip(formatted)
-    PayloadRequest.create({:requested_at => formatted[:requested_at],
-                          :responded_in => formatted[:responded_in],
-                          :url_id => url,
-                          :request_type_id => type,
-                          :resolution_id => res,
-                          :ip_id => ip,
-                          :u_agent_id => agent,
-                          :referred_by_id => refer})
+    {:requested_at => formatted[:requested_at], :responded_in => formatted[:responded_in],
+     :url => url, :request_type => type, :resolution => res, :ip => ip,
+     :u_agent => agent, :referred_by => refer}
+   end
 
-  end
+   def process_payload(request)
+     data = process_foreign_tables(request)
+     PayloadRequest.find_or_create_by(data)
+   end
 
   def valid_columns
     {"url" => :url, "requestedAt" => :requested_at,
@@ -55,35 +54,29 @@ module DataProcessor
 
   def assign_data_to_url(data)
     url_data = assign_url_data(data, :url)
-    url = Url.find_or_create_by(root_url: url_data[:root], path: url_data[:path])
-    url.id
+    Url.find_or_create_by(root_url: url_data[:root], path: url_data[:path])
   end
 
   def assign_data_to_referred_by(data)
     url_data = assign_url_data(data, :referred_by)
-    refer = ReferredBy.find_or_create_by(root_url: url_data[:root], path: url_data[:path])
-    refer.id
+    ReferredBy.find_or_create_by(root_url: url_data[:root], path: url_data[:path])
   end
 
   def assign_data_to_request_type(data)
-    type = RequestType.find_or_create_by(name: data[:request_type])
-    type.id
+    RequestType.find_or_create_by(name: data[:request_type])
   end
 
   def assign_data_to_user_agent(data)
     agent = UserAgent.parse(data[:user_agent])
-    u_agent = UAgent.find_or_create_by(browser: agent.browser, operating_system: agent.os)
-    u_agent.id
+    UAgent.find_or_create_by(browser: agent.browser, operating_system: agent.os)
   end
 
   def assign_data_to_resolution(data)
-    res = Resolution.find_or_create_by(width: data[:resolution_width], height: data[:resolution_height])
-    res.id
+    Resolution.find_or_create_by(width: data[:resolution_width], height: data[:resolution_height])
   end
 
   def assign_data_to_ip(data)
-    ip = Ip.find_or_create_by(address: data[:ip])
-    ip.id
+    Ip.find_or_create_by(address: data[:ip])
   end
 
   def clean_client_data(data)
