@@ -29,9 +29,4 @@ class RushHourAppTest < Minitest::Test
     assert_equal "Identifier Already Exists", last_response.body
   end
 
-  def test_it_can_respond_to_a_curl_request
-    skip
-  end
-
-
 end
