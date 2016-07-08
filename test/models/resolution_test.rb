@@ -11,8 +11,8 @@ class ResolutionTest < Minitest::Test
   end
 
   def test_it_can_display_all_screen_resolutions
-    process_payload(raw_data)
-    process_payload(raw_data)
+    process_payload(data_1)
+    process_payload(data_2)
     expected = {2457600 => 2}
     assert_equal expected, Resolution.resolutions
   end

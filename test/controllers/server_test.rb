@@ -41,14 +41,19 @@ class RushHourAppTest < Minitest::Test
     process_payload(raw_data)
     post '/sources/jumpstart/data', {payload: raw_data}
     assert_equal 403, last_response.status
-    assert_equal "Identifier Already Exists", last_response.body
   end
 
   def test_responds_with_403_status_if_client_is_not_yet_created
-
+    post '/sources/jumpstart/data', {payload: raw_data}
+    assert_equal 403, last_response.status
   end
 
   def test_responds_with_200_status_when_unique_payload_and_existing_client
+    Client.create( {identifier: 'jumpstart', root_url: 'http://jumpstartlab.com'} )
+    post '/sources/jumpstart/data', {payload: raw_data}
+
+    assert_equal 200, last_response.status
+    assert_equal 'OK', last_response.body
 
   end
 

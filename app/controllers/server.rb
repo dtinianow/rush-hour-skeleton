@@ -25,7 +25,6 @@ module RushHour
     post '/sources/:identifier/data' do |identifier|
       client = Client.find_by(identifier: identifier)
       payload_data = params[:payload]
-      binding.pry
       if client.nil?
         status 403
       elsif payload_data.nil?
@@ -36,7 +35,7 @@ module RushHour
         payload = process_payload(params[:payload])
         PayloadRequest.find(payload.id).update_attribute(:client_id, client.id)
         status 200
-        body 'Ok'
+        body 'OK'
       end
     end
 
