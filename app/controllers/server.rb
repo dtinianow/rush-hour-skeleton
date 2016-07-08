@@ -12,16 +12,12 @@ module RushHour
     post '/sources' do
       data = clean_client_data(params)
       client = Client.new(data)
-      #rootUrl vs root_url
       if Client.find_by(identifier: params[:identifier])
-        #identifier already exists
         status 403
       elsif client.save
-        #also need to check that identifier does not already exist
         status 200
         body "{'identifier':'#{params[:identifier]}'}"
       else
-        #missing parameters
         status 400
       end
     end
@@ -29,11 +25,12 @@ module RushHour
     post '/sources/:identifier/data' do |identifier|
       client = Client.find_by(identifier: identifier)
       payload_data = params[:payload]
+      binding.pry
       if client.nil?
         status 403
       elsif payload_data.nil?
         status 400
-      elsif PayloadRequest.find_by(process_foreign_tables(payload_data))
+      elsif PayloadRequest.find_by(foreign_table_ids(payload_data))
         status 403
       else
         payload = process_payload(params[:payload])
