@@ -73,4 +73,14 @@ class DataProcessorTest < Minitest::Test
     assert_equal 1, UAgent.all.count
     assert_equal 1, ReferredBy.all.count
   end
+
+  def test_it_can_handle_rootURl_key_from_client
+    data = {'identifier': 'jumpstartlab', 'rootUrl': 'http://jumpstartlab.com'}
+    cleaned = clean_client_data(data)
+    client = Client.create(cleaned)
+
+    assert_equal 1, Client.count
+    assert_equal 'jumpstartlab', client.identifier
+    assert_equal 'http://jumpstartlab.com', client.root_url
+  end
 end
