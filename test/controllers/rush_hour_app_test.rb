@@ -9,24 +9,29 @@ class RushHourAppTest < Minitest::Test
   end
 
   def test_create_a_new_client_with_valid_attributes
-    post '/sources', { identifier: 'jumpstart' root_url:'' }
+    post '/sources', { identifier: 'jumpstart', root_url:'http://jumpstartlab.com' }
     assert_equal 200, last_response.status
     assert_equal "{'identifier':'jumpstart'}", last_response.body
   end
 
   def test_cannot_create_a_client_with_missing_attributes
-    skip
     post '/sources', { identifier: 'jumpstart'}
     assert_equal 400, last_response.status
-    post '/sources', { root_url: ''}
+    post '/sources', { root_url: 'http://jumpstartlab.com'}
+    assert_equal 400, last_response.status
+    assert_equal "Missing Parameters", last_response.body
   end
 
   def test_cannot_create_new_client_with_already_existing_identifier
-    skip
-    post '/sources', { identifier: 'jumpstart', root_url: '' }
+    Client.create( {identifier: 'jumpstart', root_url: 'http://jumpstartlab.com'} )
+    post '/sources', { identifier: 'jumpstart', root_url: 'http://jumpstartlab.com' }
     assert_equal 403, last_response.status
+    assert_equal "Identifier Already Exists", last_response.body
   end
 
+  def test_it_can_respond_to_a_curl_request
+    skip
+  end
 
 
 end

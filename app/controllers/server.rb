@@ -3,5 +3,6 @@ module RushHour
     not_found do
       erb :error
     end
+
   end
 end
