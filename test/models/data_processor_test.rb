@@ -62,15 +62,15 @@ class DataProcessorTest < Minitest::Test
   end
 
   def test_it_does_not_store_duplicate_entires_within_foreign_key_tables
-    process_payload(raw_data)
-    process_payload(raw_data)
+    process_payload(data_5)
+    process_payload(data_6)
 
     assert_equal 2, PayloadRequest.count
     assert_equal 1, Url.all.count
     assert_equal 1, RequestType.all.count
     assert_equal 1, Resolution.all.count
     assert_equal 1, Ip.all.count
-    assert_equal 1, UAgent.all.count
+    assert_equal 2, UAgent.all.count
     assert_equal 1, ReferredBy.all.count
   end
 
