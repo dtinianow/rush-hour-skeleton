@@ -1,4 +1,5 @@
 require './app/models/data_processor'
+require 'pry'
 
 module RushHour
   class Server < Sinatra::Base
@@ -22,6 +23,23 @@ module RushHour
       else
         #missing parameters
         status 400
+      end
+    end
+
+    post '/sources/:identifier/data' do |identifier|
+      client = Client.find_by(identifier: identifier)
+      payload_data = assign_data(parse_it(params[:payload]))
+      if client.nil?
+        status 403
+      elsif PayloadRequest.find_by(process_foreign_tables(params[:payload]))
+        status 403
+      elsif payload_data.nil?
+        status 400
+      else
+        payload = process_payload(params[:payload])
+        PayloadRequest.find(payload.id).update_attribute(:client_id, client.id)
+        status 200
+        body 'Ok'
       end
     end
 
