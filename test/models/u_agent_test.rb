@@ -68,7 +68,7 @@ class UAgentTest < Minitest::Test
     UAgent.create(browser: "Dolphin", operating_system: "Windows")
     process_payload(request) #make one payload request
     process_payload(request) #now make another payload request
-    assert_equal ({"Macintosh"=>2}), UAgent.os_breakdown
+    assert_equal ({"OS X 10.8.2"=>2}), UAgent.os_breakdown
     assert_equal ({"Chrome"=>2}), UAgent.browser_breakdown
   end
 

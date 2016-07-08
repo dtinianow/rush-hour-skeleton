@@ -98,6 +98,19 @@ class UrlTest < Minitest::Test
     process_payload(data_7)
     process_payload(data_8)
 
-    assert_equal ["http://jumpstartlab.com", "http://google.com", "http://facebook.com"], Url.top_referrers
+    assert_equal ["http://google.com/", "http://facebook.com/", "http://jumpstartlab.com/"], Url.top_referrers(2)
+  end
+
+  def test_it_finds_the_top_three_user_agents
+    process_payload(data_1)
+    process_payload(data_2)
+    process_payload(data_3)
+    process_payload(data_4)
+    process_payload(data_5)
+    process_payload(data_6)
+    process_payload(data_7)
+    process_payload(data_8)
+
+    assert_equal ["Chrome; OS X 10.8.2", "Chrome; iOS", "Chrome; Corel Linux"], Url.find(2).top_user_agents
   end
 end

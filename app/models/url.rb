@@ -44,8 +44,30 @@ class Url < ActiveRecord::Base
     end
   end
 
-  def self.top_referrers
-    require "pry" ; binding.pry
+  def self.top_referrers(id)
+    referrers = PayloadRequest.select(:referred_by_id).where("url_id" == id)
+    referrer_ids = referrers.pluck(:referred_by_id)
+
+    id_hash = referrer_ids.group_by {|number| number}
+
+    id_array = id_hash.values.sort_by {|value| value.count}
+
+    id_array.reverse.flatten.uniq.map do |id_number|
+      ReferredBy.find(id_number).root_url + ReferredBy.find(id_number).path
+    end
   end
 
+  def top_user_agents
+    agents = PayloadRequest.select(:u_agent_id).where("u_agent_id" == self.id)
+    # require "pry" ; binding.pry
+    agent_ids = agents.pluck(:u_agent_id)
+
+    id_hash = agent_ids.group_by {|number| number}
+
+    id_array = id_hash.values.sort_by {|value| value.count}
+
+    id_array.reverse.flatten.uniq.map do |id_number|
+      "#{UAgent.find(id_number).browser}; " + "#{UAgent.find(id_number).operating_system}"
+    end
+  end
 end
