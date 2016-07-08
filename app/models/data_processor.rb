@@ -86,4 +86,8 @@ module DataProcessor
     ip.id
   end
 
+  def clean_client_data(data)
+    {identifier: data[:identifier], root_url: data[:rootUrl]}
+  end
+
 end

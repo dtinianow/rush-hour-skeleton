@@ -1,4 +1,7 @@
+require './app/models/data_processor'
+
 class RushHourApp < Sinatra::Base
+  include DataProcessor
 
   get '/sources' do
     status 200
@@ -6,7 +9,8 @@ class RushHourApp < Sinatra::Base
   end
 
   post '/sources' do
-    client = Client.new(params)
+    data = clean_client_data(params)
+    client = Client.new(data)
     #rootUrl vs root_url
     if Client.find_by(identifier: params[:identifier])
       #identifier already exists
