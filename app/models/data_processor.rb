@@ -20,6 +20,19 @@ module DataProcessor
      :u_agent => agent, :referred_by => refer}
    end
 
+   def foreign_table_ids(request)
+     data = process_foreign_tables(request)
+     {:requested_at => data[:requested_at],
+      :responded_in => data[:responded_in],
+      :url_id => data[:url].id,
+      :referred_by_id => data[:referred_by].id,
+      :request_type_id => data[:request_type].id,
+      :u_agent_id => data[:u_agent].id,
+      :resolution_id => data[:resolution].id,
+      :ip_id => data[:ip].id
+      }
+   end
+
    def process_payload(request)
      data = process_foreign_tables(request)
      PayloadRequest.find_or_create_by(data)
