@@ -55,8 +55,19 @@ module RushHour
     get '/sources/:identifier/urls/:relative_path' do |identifier, relative_path|
       @identifier = identifier
       client = Client.find_by(identifier: identifier)
-      @id_and_path = "#{client.root_url}/#{relative_path}"
-      erb :'identifier/relative_path'
+      paths = client.urls.pluck(:path).uniq
+      if paths.none? { |path| "/#{relative_path}" == path }
+        @message = "The path '#{relative_path}' for '#{identifier}' has not been requested."
+        erb :error
+      else
+        url_id = client.urls.find_by(path: "/#{relative_path}").id
+        @id_and_path = "#{client.root_url}/#{relative_path}"
+        @max_url_response_time = client.urls.find(url_id).payload_requests.maximum(:responded_in)
+        @min_url_response_time = client.urls.find(url_id).payload_requests.minimum(:responded_in)
+        @avg_url_response_time = client.urls.find(url_id).payload_requests.average(:responded_in)
+        @all_url_response_times = client.urls.response_times(url_id)
+        erb :'identifier/relative_path'
+      end
     end
 
     def status_code_and_message(code, message)
