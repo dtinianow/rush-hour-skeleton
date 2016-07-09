@@ -96,4 +96,62 @@ class PayloadRequestTest < Minitest::Test
 
     assert_equal 30, PayloadRequest.min_response_time
   end
+
+  def test_returns_most_frequent_request_type
+    process_payload(data_2)
+    assert_equal "POST", PayloadRequest.most_frequent_request_type
+    process_payload(data_1)
+    process_payload(data_3)
+    assert_equal "GET", PayloadRequest.most_frequent_request_type
+  end
+
+  def test_returns_all_request_types
+    process_payload(data_1)
+    process_payload(data_2)
+    process_payload(data_3)
+    assert_equal 2, RequestType.all.count
+    assert_equal ["GET", "POST"], PayloadRequest.all_request_types
+  end
+
+  def test_it_returns_a_descending_list_of_most_requested
+    process_payload(data_1)
+    process_payload(data_2)
+    process_payload(data_3)
+    process_payload(data_4)
+    process_payload(data_8)
+    process_payload(data_9)
+    assert_equal 3, Url.count
+    assert_equal ["http://jumpstartlab.com/blog", "http://google.com/translate", "http://google.com/maps"], PayloadRequest.most_to_least
+  end
+
+  def test_it_can_find_browsers_across_all_requests
+    process_payload(data_1)
+    process_payload(data_2)
+    assert_equal ({"Chrome" => 2}), PayloadRequest.browsers
+    assert_equal 1, UAgent.count
+  end
+
+  def test_it_can_find_operating_systems_across_all_requests
+    process_payload(data_1)
+    process_payload(data_2)
+    assert_equal ({"OS X 10.8.2" => 2}), PayloadRequest.operating_systems
+    process_payload(data_3)
+    assert_equal ({"OS X 10.8.2" => 2, "Corel Linux" => 1}), PayloadRequest.operating_systems
+    assert_equal 2, UAgent.count
+  end
+
+  def test_it_can_find_all_resolutions_across_all_requests
+    process_payload(data_1)
+    process_payload(data_2)
+    assert_equal ({"1920 x 1280" => 2}), PayloadRequest.all_resolutions
+    assert_equal 1, Resolution.count
+  end
+
+  def test_it_can_find_all_client_paths
+    process_payload(data_1)
+    process_payload(data_8)
+    process_payload(data_9)
+    assert_equal ["/translate", "/maps"], PayloadRequest.all_client_paths
+    assert_equal 2, Url.all_paths.count
+  end
 end
