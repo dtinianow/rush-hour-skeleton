@@ -42,7 +42,8 @@ class PayloadRequest < ActiveRecord::Base
 
   def self.most_to_least
     ids = group(:url_id).count
-    ids.keys.map {|key| Url.assemble_url(key)}
+    sorted_ids = ids.sort_by { |key, value| value }.reverse
+    sorted_ids.map {|id| Url.assemble_url(id[0])}
   end
 
   def self.browsers
