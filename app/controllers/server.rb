@@ -38,9 +38,9 @@ module RushHour
         @message = "No payload registered for #{identifier}"
         erb :error
       else
-        @average = payload.average_response_time
-        @max = payload.max_response_time
-        @min = payload.min_response_time
+        @average = client.payload_requests.average(:responded_in)
+        @max = client.payload_requests.maximum(:responded_in)
+        @min = client.payload_requests.minimum(:responded_in)
         @most_frequent = payload.most_frequent_request_type
         @verbs = payload.all_request_types
         @requested_urls = payload.most_to_least
