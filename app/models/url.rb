@@ -44,8 +44,8 @@ class Url < ActiveRecord::Base
     end
   end
 
-  def top_user_agents
-    agents = PayloadRequest.select(:u_agent_id).where("u_agent_id" == self.id)
+  def self.top_user_agents(id)
+    agents = PayloadRequest.select(:u_agent_id).where("u_agent_id" == id)
     agent_ids = agents.pluck(:u_agent_id)
 
     id_hash = agent_ids.group_by {|number| number}
