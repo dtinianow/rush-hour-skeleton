@@ -7,7 +7,7 @@
 </div>
 
 <div class="row col-md-12">
-  <%= erb :'shared/_identifier_data_list', locals: {text: 'All response times for this URL, sorted shortest to longest:', data: @all_url_response_times} %>
+  <%= erb :'shared/_identifier_data_list', locals: {text: 'All response times for this URL, sorted longest to shortest:', data: @all_url_response_times} %>
   <%= erb :'shared/_identifier_data_list', locals: {text: 'Request types (verbs) to thie URL:', data: @url_verbs} %>
 </div>
 
