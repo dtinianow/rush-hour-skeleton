@@ -1,13 +1,17 @@
 <%= erb :'shared/_heading', locals: {identifier: @id_and_path} %>
-Average Response time for this URL
 
-<!-- <div class="row col-md-12">
-  <%= erb :'shared/_identifier_data', locals: {text: 'Avg. response time for this URL:', data: 10, type: 'ms'}%>
-  
+<div class="row col-md-12">
+  <%= erb :'shared/_identifier_data', locals: {text: 'Avg. response time for this URL:', data: @avg_url_response_time, type: 'ms'} %>
+  <%= erb :'shared/_identifier_data', locals: {text: 'Max. response time for this URL:', data: @max_url_response_time, type: 'ms'} %>
+  <%= erb :'shared/_identifier_data', locals: {text: 'Min. response time for this URL:', data: @min_url_response_time, type: 'ms'} %>
+  <%= erb :'shared/_identifier_data', locals: {text: 'All response times for this URL, sorted shortest to longest:', data: @all_url_response_times, type: 'ms'} %>
+</div>
 
-Max Response time
-Min Response time
-A list of response times across all requests listed from longest response time to shortest response time.
+<div class="row col-md-12">
+  <%= erb :'shared/_identifier_data', locals: {} %>
+</div>
+
+
 HTTP Verb(s) associated used to it this URL
 Three most popular referrers
-Three most popular user agents -->
+Three most popular user agents
