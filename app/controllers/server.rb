@@ -22,8 +22,15 @@ module RushHour
     end
 
     get "/sources/:identifier" do |identifier|
-      if Client.find_by(identifier: identifier)
-        payload = PayloadRequest.where(client_id: Client.find_by(identifier: identifier).id)
+      client = Client.find_by(identifier: identifier)
+      payload = PayloadRequest.where(client_id: client.id) unless client.nil?
+      if client.nil?
+        @message = "#{identifier} does not exist"
+        erb :error
+      elsif payload.empty?
+        @message = "No payload registered for #{identifier}"
+        erb :error
+      else
         @average = payload.average_response_time
         @max = payload.max_response_time
         @min = payload.min_response_time
@@ -34,10 +41,7 @@ module RushHour
         @user_agent_op_systems = payload.operating_systems
         @resolutions = payload.all_resolutions
         @paths = payload.all_client_paths
-
         erb :index
-      else
-        erb :error
       end
     end
 
