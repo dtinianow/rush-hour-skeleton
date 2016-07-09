@@ -5,3 +5,8 @@ body {
   background-attachment: fixed;
   background-color: #bdd8da;
 }
+
+.heading{
+  border-bottom: 2px solid black;
+  padding: 5px 0px;
+}
