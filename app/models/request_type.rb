@@ -3,13 +3,7 @@ class RequestType < ActiveRecord::Base
 
   validates :name, presence: true
 
-  def self.most_frequent_request_type
-    verbs = pluck(:name).sort
-    verb_count = verbs.each_with_object(Hash.new(0)) { |verb, hash| hash[verb] += 1 }
-    verb_count.max_by { |verb, count| count }.first
-  end
-
-  def self.all_request_types
-    pluck(:name).uniq
-  end
+  # def self.all_request_types
+  #   pluck(:name).uniq
+  # end
 end
