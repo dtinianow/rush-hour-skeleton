@@ -99,6 +99,6 @@ class UrlTest < Minitest::Test
     process_payload(data_7)
     process_payload(data_8)
 
-    assert_equal ["Chrome; OS X 10.8.2", "Chrome; iOS", "Chrome; Corel Linux"], Url.find(2).top_user_agents
+    assert_equal ["Chrome; OS X 10.8.2", "Chrome; iOS", "Chrome; Corel Linux"], Url.top_user_agents(2)
   end
 end
