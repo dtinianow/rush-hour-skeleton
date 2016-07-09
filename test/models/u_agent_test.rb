@@ -52,17 +52,6 @@ class UAgentTest < Minitest::Test
   end
 
   def test_it_can_produce_browser_for_all_and_os_for_all_from_raw
-    request = '{
-              "url": "http://jumpstartlab.com/blog",
-              "requestedAt": "2013-02-16 21:38:28 -0700",
-              "respondedIn": 37,
-              "referredBy": "http://jumpstartlab.com",
-              "requestType": "GET",
-              "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
-              "resolutionWidth": "1920",
-              "resolutionHeight": "1280",
-              "ip": "63.29.38.211"
-            }'
     UAgent.create(browser: "Chrome", operating_system: "Macintosh")
     #this next uagent object will never be invoked, but we make it exist as a row in the UAgent table. Testing that it is using the correct table interactions.
     UAgent.create(browser: "Dolphin", operating_system: "Windows")

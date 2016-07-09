@@ -16,27 +16,27 @@ module DataProcessor
     res = assign_data_to_resolution(formatted)
     ip = assign_data_to_ip(formatted)
     {:requested_at => formatted[:requested_at], :responded_in => formatted[:responded_in],
-     :url => url, :request_type => type, :resolution => res, :ip => ip,
-     :u_agent => agent, :referred_by => refer}
-   end
+    :url => url, :request_type => type, :resolution => res, :ip => ip,
+    :u_agent => agent, :referred_by => refer}
+  end
 
-   def foreign_table_ids(request)
-     data = process_foreign_tables(request)
-     {:requested_at => data[:requested_at],
-      :responded_in => data[:responded_in],
-      :url_id => data[:url].id,
-      :referred_by_id => data[:referred_by].id,
-      :request_type_id => data[:request_type].id,
-      :u_agent_id => data[:u_agent].id,
-      :resolution_id => data[:resolution].id,
-      :ip_id => data[:ip].id
-      }
-   end
+  def foreign_table_ids(request)
+  data = process_foreign_tables(request)
+  {:requested_at => data[:requested_at],
+  :responded_in => data[:responded_in],
+  :url_id => data[:url].id,
+  :referred_by_id => data[:referred_by].id,
+  :request_type_id => data[:request_type].id,
+  :u_agent_id => data[:u_agent].id,
+  :resolution_id => data[:resolution].id,
+  :ip_id => data[:ip].id
+  }
+  end
 
-   def process_payload(request)
-     data = process_foreign_tables(request)
-     PayloadRequest.find_or_create_by(data)
-   end
+  def process_payload(request)
+    data = process_foreign_tables(request)
+    PayloadRequest.find_or_create_by(data)
+  end
 
   def valid_columns
     {"url" => :url, "requestedAt" => :requested_at,
