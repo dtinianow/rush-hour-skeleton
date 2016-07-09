@@ -1,0 +1,16 @@
+body {
+  background-image: url("/images/rush-hour.png");
+  background-repeat: no-repeat;
+  background-position: 103% 151%;
+  background-attachment: fixed;
+  background-color: #bdd8da;
+}
+
+.heading {
+  border-bottom: 2px solid black;
+  padding: 5px 0px;
+}
+
+.container {
+  background-color: rgba(255,255,255,.75);
+}

@@ -5,24 +5,11 @@ class Url < ActiveRecord::Base
   validates :path, presence: true
 
   def self.all_paths
-    Url.pluck(:path).uniq
+    pluck(:path).uniq
   end
 
   def self.all_roots
-    Url.pluck(:root_url).uniq
-  end
-
-  def self.most_to_least
-    grouped = Url.group([:root_url] + [:path]).count
-
-    array = grouped.sort_by do |key, value|
-      value
-    end.reverse
-
-
-    array.map do |url, number|
-      url.join
-    end
+    pluck(:root_url).uniq
   end
 
   def self.assemble_url(id)
