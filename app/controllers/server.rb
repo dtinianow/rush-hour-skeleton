@@ -52,6 +52,13 @@ module RushHour
       end
     end
 
+    get '/sources/:identifier/urls/:relative_path' do |identifier, relative_path|
+      @identifier = identifier
+      client = Client.find_by(identifier: identifier)
+      @id_and_path = "#{client.root_url}/#{relative_path}"
+      erb :'identifier/relative_path'
+    end
+
     def status_code_and_message(code, message)
       status code
       body message
