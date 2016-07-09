@@ -36,7 +36,7 @@ module TestHelpers
       "resolutionHeight": "1280",
       "ip": "63.29.38.211"
     }'
-    end
+  end
 
   def data_1
     '{
