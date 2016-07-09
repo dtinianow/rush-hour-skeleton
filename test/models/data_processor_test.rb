@@ -65,9 +65,9 @@ class DataProcessorTest < Minitest::Test
     process_payload(data_1)
     process_payload(data_8)
 
-    assert_equal 1, PayloadRequest.count
+    assert_equal 2, PayloadRequest.count
     assert_equal 1, Url.all.count
-    assert_equal 1, RequestType.all.count
+    assert_equal 2, RequestType.all.count
     assert_equal 1, Resolution.all.count
     assert_equal 1, Ip.all.count
     assert_equal 1, UAgent.all.count
