@@ -4,6 +4,12 @@ module RushHour
   class Server < Sinatra::Base
     include DataProcessor
 
+    helpers do
+      def create_link(path, text)
+        "<a href=#{path}>#{text}</a>"
+      end
+    end
+
     not_found do
       erb :error
     end
@@ -22,6 +28,7 @@ module RushHour
     end
 
     get "/sources/:identifier" do |identifier|
+      @identifier = identifier
       client = Client.find_by(identifier: identifier)
       payload = PayloadRequest.where(client_id: client.id) unless client.nil?
       if client.nil?
@@ -41,7 +48,7 @@ module RushHour
         @user_agent_op_systems = payload.operating_systems
         @resolutions = payload.all_resolutions
         @paths = payload.all_client_paths
-        erb :index
+        erb :'identifier/index'
       end
     end
 
