@@ -1,9 +1,9 @@
 require './app/models/data_processor'
 
-class Response
-  include DataProcessor
+module Response
+  extend DataProcessor
 
-  def self.process_client(client, id)
+  def process_client(client, id)
     if Client.find_by(identifier: id)
       [403, "Identifier '#{id}' already exists"]
     elsif client.save
@@ -13,7 +13,7 @@ class Response
     end
   end
 
-  def self.process_client_payload(client, identifier, payload_data)
+  def process_client_payload(client, identifier, payload_data)
     if client.nil?
       [403, "Client with identifier '#{identifier}' is not yet registered."]
     elsif payload_data.nil?

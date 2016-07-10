@@ -1,8 +1,9 @@
 require './app/models/data_processor'
+require './app/models/response'
 
 module RushHour
   class Server < Sinatra::Base
-    include DataProcessor
+    include Response, DataProcessor
 
     helpers do
       def create_link(path, text)
@@ -18,7 +19,7 @@ module RushHour
       data = clean_client_data(params)
       client = Client.new(data)
       id = params[:identifier]
-      response = Response.process_client(client, id)
+      response = process_client(client, id)
       status response[0]
       body response[1]
     end
@@ -26,7 +27,7 @@ module RushHour
     post '/sources/:identifier/data' do |identifier|
       client = Client.find_by(identifier: identifier)
       payload_data = params[:payload]
-      response = Response.process_client_payload(client, identifier, payload_data)
+      response = process_client_payload(client, identifier, payload_data)
       status response[0]
       body response[1]
     end
