@@ -22,4 +22,17 @@ class ClientTest < Minitest::Test
 
     assert_equal 0, Client.count
   end
+
+  def test_it_requires_a_unique_identifier_and_root_url
+    client_1 = Client.create(identifier: 'jumpstartlab', root_url: 'http://jumpstartlab.com')
+
+    assert client_1.valid?
+    assert_equal 1, Client.count
+
+    client_2 = Client.create(identifier: 'jumpstartlab', root_url: 'http://jumpstartlab.com/')
+
+    refute client_2.valid?
+    assert_equal 1, Client.count
+  end
+
 end
