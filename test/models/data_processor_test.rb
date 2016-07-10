@@ -45,7 +45,6 @@ class DataProcessorTest < Minitest::Test
 
   def test_it_can_store_all_data_from_a_payload
     loaded = process_payload(raw_data)
-
     assert loaded.requested_at
     assert_equal 37, loaded.responded_in
     assert_equal 1, loaded.url_id
@@ -59,7 +58,6 @@ class DataProcessorTest < Minitest::Test
   def test_it_does_not_store_duplicate_entires_within_foreign_key_tables
     process_payload(data_1)
     process_payload(data_8)
-
     assert_equal 2, PayloadRequest.count
     assert_equal 1, Url.all.count
     assert_equal 2, RequestType.all.count
@@ -73,7 +71,6 @@ class DataProcessorTest < Minitest::Test
     data = {'identifier': 'jumpstartlab', 'rootUrl': 'http://jumpstartlab.com'}
     cleaned = clean_client_data(data)
     client = Client.create(cleaned)
-
     assert_equal 1, Client.count
     assert_equal 'jumpstartlab', client.identifier
     assert_equal 'http://jumpstartlab.com', client.root_url
