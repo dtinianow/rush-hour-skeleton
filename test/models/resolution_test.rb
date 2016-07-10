@@ -10,10 +10,4 @@ class ResolutionTest < Minitest::Test
     assert resolution.valid?
   end
 
-  def test_it_can_display_all_screen_resolutions
-    process_payload(data_1)
-    process_payload(data_2)
-    expected = {2457600 => 2}
-    assert_equal expected, Resolution.resolutions
-  end
 end
