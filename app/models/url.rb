@@ -1,5 +1,8 @@
 class Url < ActiveRecord::Base
   has_many :payload_requests
+  has_many :request_types, through: :payload_requests
+  has_many :referred_bies, through: :payload_requests
+  has_many :u_agents, through: :payload_requests
 
   validates :root_url, presence: true
   validates :path, presence: true
@@ -35,12 +38,7 @@ class Url < ActiveRecord::Base
   end
 
   def self.verbs_used(id)
-    requests = PayloadRequest.select(:request_type_id).where("url_id" == id)
-    verb_ids = requests.pluck(:request_type_id).uniq
-
-    verb_ids.map do |number|
-      RequestType.find(number).name
-    end
+    find(id).request_types.pluck(:name).sort
   end
 
   def self.top_referrers(id)
