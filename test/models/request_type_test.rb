@@ -10,4 +10,16 @@ class RequestTypeTest < Minitest::Test
     request_type = RequestType.create({})
     refute request_type.valid?
   end
+
+  def test_it_requires_a_unique_name
+    type = RequestType.create(name: "GET")
+
+    assert type.valid?
+    assert_equal 1, RequestType.count
+
+    type_2 = RequestType.create(name: "GET")
+
+    refute type_2.valid?
+    assert_equal 1, RequestType.count
+  end
 end

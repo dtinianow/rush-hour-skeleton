@@ -9,4 +9,5 @@ class ReferredByTest < Minitest::Test
     assert_equal 'http://www.google.com', referred_by.root_url
     assert referred_by.valid?
   end
+
 end
