@@ -69,7 +69,6 @@ module RushHour
         @url_verbs = client.urls.verbs_used(url_id)
         @url_top_three_refers = client.urls.top_referrers(url_id)[0..2]
         @url_top_three_agents = client.urls.top_user_agents(url_id)[0..2]
-        # require "pry" ; binding.pry
         erb :'identifier/relative_path'
       end
     end
