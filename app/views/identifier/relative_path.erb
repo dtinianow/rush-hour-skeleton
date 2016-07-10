@@ -2,7 +2,7 @@
 
 <div class="row col-md-12 top-row">
   <div class="col-md-3 text-center back-button">
-    <a class="btn btn-info btn-lg" href="/sources/<%= @identifier %>" role="button">Back to all <%= @identifier %> data</a>
+    <a class="btn btn-info btn-md" href="/sources/<%= @identifier %>" role="button">Back to all <%= @identifier %> data</a>
   </div>
   <%= erb :'shared/_identifier_data', locals: {text: 'Max. response time for this URL:', data: client.urls.max_response_time(url_id), type: 'ms'} %>
   <%= erb :'shared/_identifier_data', locals: {text: 'Min. response time for this URL:', data: client.urls.min_response_time(url_id), type: 'ms'} %>
