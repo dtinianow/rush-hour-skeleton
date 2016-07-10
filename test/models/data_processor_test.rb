@@ -10,40 +10,35 @@ class DataProcessorTest < Minitest::Test
   end
 
   def test_it_can_assign_url_data
-    data = parse_it(raw_data)
-    formatted = assign_data(data)
+    formatted = parse_and_format(raw_data)
     assign_data_to_url(formatted)
     assert_equal "http://jumpstartlab.com", Url.first.root_url
     assert_equal "/blog", Url.first.path
   end
 
   def test_it_can_assign_referred_by_data
-    data = parse_it(raw_data)
-    formatted = assign_data(data)
+    formatted = parse_and_format(raw_data)
     assign_data_to_referred_by(formatted)
     assert_equal "http://jumpstartlab.com", ReferredBy.first.root_url
     assert_equal "/", ReferredBy.first.path
   end
 
   def test_it_can_assign_user_agent_data
-    data = parse_it(raw_data)
-    formatted = assign_data(data)
+    formatted = parse_and_format(raw_data)
     assign_data_to_user_agent(formatted)
     assert_equal "Chrome", UAgent.first.browser
     assert_equal "OS X 10.8.2", UAgent.first.operating_system
   end
 
   def test_it_can_assign_resolution_data
-    data = parse_it(raw_data)
-    formatted = assign_data(data)
+    formatted = parse_and_format(raw_data)
     assign_data_to_resolution(formatted)
     assert_equal 1920, Resolution.first.width
     assert_equal 1280, Resolution.first.height
   end
 
   def test_it_can_assign_ip_data
-    data = parse_it(raw_data)
-    formatted = assign_data(data)
+    formatted = parse_and_format(raw_data)
     assign_data_to_ip(formatted)
     assert_equal "63.29.38.211", Ip.first.address
   end
