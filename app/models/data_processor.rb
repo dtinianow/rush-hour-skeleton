@@ -6,9 +6,13 @@ module DataProcessor
     JSON.parse("#{request}")
   end
 
+  def parse_and_format(request)
+    parsed = parse_it(request)
+    assign_data(parsed)
+  end
+
   def process_foreign_tables(request)
-    data = parse_it(request)
-    formatted = assign_data(data)
+    formatted = parse_and_format(request)
     url = assign_data_to_url(formatted)
     refer = assign_data_to_referred_by(formatted)
     type = assign_data_to_request_type(formatted)
@@ -54,13 +58,11 @@ module DataProcessor
 
   def assign_url_data(data, type)
     url = data[type]
-    split = url.split('/')
-    if split.last.include?('.')
-      root = split.join('/')
-      path = '/'
+    split_url = url.split('/')
+    if split_url.last.include?('.')
+      root, path = split_url.join('/'), '/'
     else
-      root = split[0...split.count-1].join('/')
-      path = "/#{split.last}"
+      root, path = split_url[0...split_url.count-1].join('/'), "/#{split_url.last}"
     end
     {:root => root, :path => path}
   end
