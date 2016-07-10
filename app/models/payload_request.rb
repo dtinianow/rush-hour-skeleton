@@ -56,5 +56,4 @@ class PayloadRequest < ActiveRecord::Base
   def self.all_client_paths
     pluck(:url_id).uniq.map {|id| Url.find(id).path}
   end
-
 end
