@@ -5,6 +5,7 @@ class UrlTest < Minitest::Test
 
   def test_it_can_hold_a_root_url_and_path
     url = Url.create(root_url: "http://www.google.com", path: "/")
+
     assert_equal '/', url.path
     assert_equal 'http://www.google.com', url.root_url
     assert url.valid?
@@ -72,8 +73,7 @@ class UrlTest < Minitest::Test
     process_payload(data_2)
     process_payload(data_3)
 
-
-   assert_equal ["GET", "POST"], Url.verbs_used(2)
+    assert_equal ["GET", "POST"], Url.verbs_used(2)
   end
 
   def test_it_finds_the_top_three_referrers
