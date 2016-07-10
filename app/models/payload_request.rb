@@ -17,15 +17,15 @@ class PayloadRequest < ActiveRecord::Base
   validates :ip_id, presence: true
 
   def self.average_response_time
-    PayloadRequest.average(:responded_in)
+    PayloadRequest.average(:responded_in).round(2)
   end
 
   def self.max_response_time
-    PayloadRequest.maximum(:responded_in)
+    PayloadRequest.maximum(:responded_in).round(2)
   end
 
   def self.min_response_time
-    PayloadRequest.minimum(:responded_in)
+    PayloadRequest.minimum(:responded_in).round(2)
   end
 
   def self.most_frequent_request_type
