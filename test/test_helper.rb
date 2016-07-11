@@ -163,6 +163,14 @@ module TestHelpers
     }'
   end
 
+  def populate_client_payload
+    client = Client.create(identifier: 'jumpstartlab', root_url: 'http://jumpstartlab.com')
+    payload_1 = process_payload(data_2)
+    payload_2 = process_payload(data_3)
+    PayloadRequest.find(payload_1.id).update_attribute(:client_id, client.id)
+    PayloadRequest.find(payload_2.id).update_attribute(:client_id, client.id)
+  end
+
 end
 
 Capybara.app = RushHour::Server
