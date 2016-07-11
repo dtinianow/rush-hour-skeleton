@@ -1,26 +1,26 @@
 <%= erb :'shared/_heading', locals: {identifier: @identifier} %>
 <div class="row col-md-12 top-row">
-  <%= erb :'shared/_identifier_data', locals: {text: 'Avg. response time across all requests:', data: @average.round(2), type: 'ms'}%>
-  <%= erb :'shared/_identifier_data', locals: {text: 'Max. response time across all requests:', data: @max.round(2), type: 'ms'}%>
-  <%= erb :'shared/_identifier_data', locals: {text: 'Min. response time across all requests:', data: @min.round(2), type: 'ms'}%>
-  <%= erb :'shared/_identifier_data', locals: {text: 'Most frequest request type (verb):', data: @most_frequent, type: ''}%>
+  <%= erb :'shared/_identifier_data', locals: {text: 'Avg. response time across all requests:', data: payload.average_response_time, type: 'ms'}%>
+  <%= erb :'shared/_identifier_data', locals: {text: 'Max. response time across all requests:', data: payload.max_response_time, type: 'ms'}%>
+  <%= erb :'shared/_identifier_data', locals: {text: 'Min. response time across all requests:', data: payload.min_response_time, type: 'ms'}%>
+  <%= erb :'shared/_identifier_data', locals: {text: 'Most frequest request type (verb):', data: payload.most_frequent_request_type, type: ''}%>
 </div>
 
 <div class="row col-md-12 second-row">
-  <%= erb :'shared/_identifier_data_list', locals: {text: 'All request types:', type: @verbs} %>
-  <%= erb :'shared/_identifier_data_list', locals: {text: 'All requested urls from most to least requested:', type: @requested_urls} %>
+  <%= erb :'shared/_identifier_data_list', locals: {text: 'All request types:', type: payload.all_request_types} %>
+  <%= erb :'shared/_identifier_data_list', locals: {text: 'All requested urls from most to least requested:', type: payload.most_to_least} %>
 </div>
 
 <div class="row col-md-12 third-row">
-  <%= erb :'shared/_identifier_data_list_multi', locals: {text: 'All browsers:', type: @user_agent_browsers} %>
-  <%= erb :'shared/_identifier_data_list_multi', locals: {text: 'All operating systems:', type: @user_agent_op_systems} %>
+  <%= erb :'shared/_identifier_data_list_multi', locals: {text: 'All browsers:', type: payload.browsers} %>
+  <%= erb :'shared/_identifier_data_list_multi', locals: {text: 'All operating systems:', type: payload.operating_systems} %>
 </div>
 
 <div class="row col-md-12 last-row">
-  <%= erb :'shared/_identifier_data_list_multi', locals: {text: 'All screen resolutions:', type: @resolutions} %>
+  <%= erb :'shared/_identifier_data_list_multi', locals: {text: 'All screen resolutions:', type: payload.all_resolutions} %>
   <div class="col-md-6">
     <h4 class="heading text-center">View path specific data:</h4>
-    <% @paths.each do |path| %>
+    <% payload.all_client_paths.each do |path| %>
       <p class="text-center"><strong>
       <%= create_link("/sources/#{@identifier}/urls#{path}","#{path}") %>
       </strong></p>

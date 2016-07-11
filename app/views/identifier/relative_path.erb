@@ -2,19 +2,19 @@
 
 <div class="row col-md-12 top-row">
   <div class="col-md-3 text-center back-button">
-    <a class="btn btn-info btn-lg" href="/sources/<%= @identifier %>" role="button">Back to all <%= @identifier %> data</a>
+    <a class="btn btn-info btn-md" href="/sources/<%= @identifier %>" role="button">Back to all <%= @identifier %> data</a>
   </div>
-  <%= erb :'shared/_identifier_data', locals: {text: 'Max. response time for this URL:', data: @max_url_response_time, type: 'ms'} %>
-  <%= erb :'shared/_identifier_data', locals: {text: 'Min. response time for this URL:', data: @min_url_response_time, type: 'ms'} %>
-  <%= erb :'shared/_identifier_data', locals: {text: 'Avg. response time for this URL:', data: @avg_url_response_time, type: 'ms'} %>
+  <%= erb :'shared/_identifier_data', locals: {text: 'Max. response time for this URL:', data: client.urls.max_response_time(url_id), type: 'ms'} %>
+  <%= erb :'shared/_identifier_data', locals: {text: 'Min. response time for this URL:', data: client.urls.min_response_time(url_id), type: 'ms'} %>
+  <%= erb :'shared/_identifier_data', locals: {text: 'Avg. response time for this URL:', data: client.urls.average_response_time(url_id), type: 'ms'} %>
 </div>
 
 <div class="row col-md-12 second-row">
-  <%= erb :'shared/_identifier_data_list', locals: {text: 'All response times (ms) for this URL (longest to shortest):', type: @all_url_response_times} %>
-  <%= erb :'shared/_identifier_data_list', locals: {text: 'Request types (verbs) to this URL:', type: @url_verbs} %>
+  <%= erb :'shared/_identifier_data_list', locals: {text: 'All response times (ms) for this URL (longest to shortest):', type: client.urls.response_times(url_id)} %>
+  <%= erb :'shared/_identifier_data_list', locals: {text: 'Request types (verbs) to this URL:', type: client.urls.verbs_used(url_id)} %>
 </div>
 
 <div class="row col-md-12 last-row">
-  <%= erb :'shared/_identifier_data_list', locals: {text: 'Three most popular referrers:', type: @url_top_three_refers} %>
-  <%= erb :'shared/_identifier_data_list', locals: {text: 'Three most popular user agents:', type: @url_top_three_agents} %>
+  <%= erb :'shared/_identifier_data_list', locals: {text: 'Three most popular referrers:', type: client.urls.top_referrers(url_id)} %>
+  <%= erb :'shared/_identifier_data_list', locals: {text: 'Three most popular user agents:', type: client.urls.top_user_agents(url_id)} %>
 </div>
