@@ -3,14 +3,6 @@ require './test/test_helper'
 class UserSeesPayloadDataTest < FeatureTest
   include TestHelpers, DataProcessor
 
-  def populate_client_payload
-    client = Client.create(identifier: 'jumpstartlab', root_url: 'http://jumpstartlab.com')
-    payload_1 = process_payload(data_2)
-    payload_2 = process_payload(data_3)
-    PayloadRequest.find(payload_1.id).update_attribute(:client_id, client.id)
-    PayloadRequest.find(payload_2.id).update_attribute(:client_id, client.id)
-  end
-
   def test_user_can_see_data_across_all_requests
     populate_client_payload
     visit '/sources/jumpstartlab'
