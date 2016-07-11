@@ -38,7 +38,7 @@ class Url < ActiveRecord::Base
   end
 
   def self.verbs_used(id)
-    find(id).request_types.pluck(:name).uniq.sort
+    find(id).request_types.group(:name).count.sort_by{|name, count| name}.to_h
   end
 
   def self.top_referrers(id)

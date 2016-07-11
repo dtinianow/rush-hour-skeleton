@@ -14,7 +14,7 @@ class UserSeesPayloadDataTest < FeatureTest
       assert page.find('.col-md-3:last').has_content?("POST")
     end
     within ('.second-row') do
-      assert page.find('.col-md-6:first').has_content?("POST\nGET")
+      assert page.find('.col-md-6:first').has_content?("POST (1 requests)\nGET (1 requests)")
       assert page.find('.col-md-6:last').has_content?("http://jumpstartlab.com/blog")
     end
     within ('.third-row') do
@@ -42,7 +42,7 @@ class UserSeesPayloadDataTest < FeatureTest
     end
     within ('.second-row') do
       assert page.find('.col-md-6:first').has_content?("66\n50")
-      assert page.find('.col-md-6:last').has_content?("GET\nPOST")
+      assert page.find('.col-md-6:last').has_content?("GET (1 requests)\nPOST (1 requests)")
     end
     within ('.last-row') do
       assert page.find('.col-md-6:first').has_content?("http://google.com/\nhttp://jumpstartlab.com/")

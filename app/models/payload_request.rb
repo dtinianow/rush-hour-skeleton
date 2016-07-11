@@ -34,7 +34,7 @@ class PayloadRequest < ActiveRecord::Base
   end
 
   def self.all_request_types
-    pluck(:request_type_id).uniq.map {|id| RequestType.find(id).name}
+    group(:request_type_id).count.map {|id, count| [RequestType.find(id).name, count]}.to_h
   end
 
   def self.most_to_least

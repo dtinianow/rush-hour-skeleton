@@ -77,7 +77,8 @@ class PayloadRequestTest < Minitest::Test
     process_payload(data_2)
     process_payload(data_3)
     assert_equal 2, RequestType.all.count
-    assert_equal ["GET", "POST"], PayloadRequest.all_request_types
+    expected = {"GET"=>2, "POST"=>1}
+    assert_equal expected, PayloadRequest.all_request_types
   end
 
   def test_it_returns_a_descending_list_of_most_requested

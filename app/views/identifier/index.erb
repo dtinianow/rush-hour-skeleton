@@ -7,7 +7,7 @@
 </div>
 
 <div class="row col-md-12 second-row">
-  <%= erb :'shared/_identifier_data_list', locals: {text: 'All request types:', type: payload.all_request_types} %>
+  <%= erb :'shared/_identifier_data_list_multi', locals: {text: 'All request types:', type: payload.all_request_types} %>
   <%= erb :'shared/_identifier_data_list', locals: {text: 'All requested urls from most to least requested:', type: payload.most_to_least} %>
 </div>
 
