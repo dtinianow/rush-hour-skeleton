@@ -38,3 +38,8 @@ From the root folder of the project, run `shotgun` in the command line to launch
       * HTTP Verb(s) associated used to it this URL
       * Three most popular referrers
       * Three most popular user agents
+
+## Collaborators
+* [dtinianow](https://github.com/dtinianow)
+* [Caleb9193](https://github.com/Caleb9193)
+* [tgisg](https://github.com/tgisg)
